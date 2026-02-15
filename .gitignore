@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# TaskFlow specific - Updated 2026
+.env.local
+.env.production

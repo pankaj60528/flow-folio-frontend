@@ -1,3 +1,4 @@
+// TaskFlow ESLint Config - Updated 2026-02-15
 import js from "@eslint/js";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
