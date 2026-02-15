@@ -28,75 +28,59 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="flex flex-col items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-            <LayoutDashboard className="h-6 w-6 text-primary-foreground" />
+    <div className="flex min-h-screen items-center justify-center bg-black p-4 relative overflow-hidden">
+      {/* Background decorative circles */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full opacity-20 blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl"></div>
+      
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-gray-900/80 backdrop-blur-md rounded-2xl p-8 border border-gray-800/50 shadow-2xl">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-white mb-2">Login Here</h1>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">TaskFlow</h1>
-          <p className="text-sm text-muted-foreground">Sign in to manage your tasks</p>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3 text-sm text-red-400">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-gray-300 text-sm font-medium">Username</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Email or Phone"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                autoComplete="email"
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500/20"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-gray-300 text-sm font-medium">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                autoComplete="current-password"
+                className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500/20"
+              />
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full bg-white text-black hover:bg-gray-100 font-semibold py-3 rounded-lg transition-colors"
+            >
+              Log In
+            </Button>
+          </form>
         </div>
-
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg">Sign in</CardTitle>
-            <CardDescription>Use your credentials to access the board</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="flex items-center gap-2 rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
-                  <AlertCircle className="h-4 w-4 shrink-0" />
-                  {error}
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="intern@demo.com"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  autoComplete="email"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Checkbox
-                  id="remember"
-                  checked={remember}
-                  onCheckedChange={(c) => setRemember(c === true)}
-                />
-                <Label htmlFor="remember" className="text-sm font-normal text-muted-foreground cursor-pointer">
-                  Remember me
-                </Label>
-              </div>
-
-              <Button type="submit" className="w-full">
-                Sign in
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        <p className="text-center text-xs text-muted-foreground">
-          Demo credentials: intern@demo.com / intern123
-        </p>
       </div>
     </div>
   );

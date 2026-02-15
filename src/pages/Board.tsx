@@ -85,102 +85,112 @@ const Board = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b bg-card/80 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <LayoutDashboard className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold text-foreground">TaskFlow</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:inline text-sm text-muted-foreground">{userEmail}</span>
-            <Button variant="ghost" size="sm" onClick={logout} className="gap-1.5">
-              <LogOut className="h-4 w-4" /> Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* Toolbar */}
-      <div className="border-b bg-card/50">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-2.5">
-          <div className="relative flex-1 min-w-[180px] max-w-xs">
-            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder="Search tasks..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="pl-8 h-9"
-            />
-          </div>
-
-          <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-            <SelectTrigger className="w-[130px] h-9">
-              <SelectValue placeholder="Priority" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All priorities</SelectItem>
-              <SelectItem value="high">High</SelectItem>
-              <SelectItem value="medium">Medium</SelectItem>
-              <SelectItem value="low">Low</SelectItem>
-              <SelectItem value="none">None</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Button variant={sortByDue ? 'secondary' : 'outline'} size="sm" onClick={() => setSortByDue(!sortByDue)} className="h-9">
-            Sort by due date
-          </Button>
-
-          <div className="ml-auto flex gap-2">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-1.5 h-9">
-                  <Activity className="h-4 w-4" /> Activity
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Activity Log</SheetTitle>
-                </SheetHeader>
-                <div className="mt-4">
-                  <ActivityLog entries={board.activityLog} />
-                </div>
-              </SheetContent>
-            </Sheet>
-
-            <Button variant="outline" size="sm" className="gap-1.5 h-9 text-destructive hover:text-destructive" onClick={() => setResetOpen(true)}>
-              <RotateCcw className="h-4 w-4" /> Reset
-            </Button>
-
-            <Button size="sm" className="gap-1.5 h-9" onClick={() => { setEditingTask(null); setDialogOpen(true); }}>
-              <Plus className="h-4 w-4" /> New Task
-            </Button>
-          </div>
-        </div>
+    <div className="flex min-h-screen flex-col bg-black relative overflow-hidden">
+      {/* Neon grid background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }}></div>
       </div>
-
-      {/* Board */}
-      <main className="flex-1">
-        <div className="mx-auto max-w-7xl p-4">
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {columns.map(col => (
-                <BoardColumn
-                  key={col}
-                  columnId={col}
-                  tasks={tasksByColumn(col)}
-                  onEdit={handleEdit}
-                  onDelete={id => setDeleteId(id)}
-                />
-              ))}
+      
+      <div className="relative z-10">
+        {/* Header */}
+        <header className="sticky top-0 z-10 border-b border-purple-500/20 bg-black/80 backdrop-blur-md">
+          <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-600">
+                <LayoutDashboard className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-lg font-bold text-white">TaskFlow</span>
             </div>
-          </DragDropContext>
+
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline text-sm text-gray-400">{userEmail}</span>
+              <Button variant="ghost" size="sm" onClick={logout} className="gap-1.5 text-gray-300 hover:text-white hover:bg-purple-600/20">
+                <LogOut className="h-4 w-4" /> Logout
+              </Button>
+            </div>
+          </div>
+        </header>
+
+        {/* Toolbar */}
+        <div className="border-b border-purple-500/20 bg-black/60 backdrop-blur-sm">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-2.5">
+            <div className="relative flex-1 min-w-[180px] max-w-xs">
+              <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Input
+                placeholder="Search tasks..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="pl-8 h-9 bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-purple-500/20"
+              />
+            </div>
+
+            <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+              <SelectTrigger className="w-[130px] h-9 bg-gray-900/50 border-gray-700 text-white">
+                <SelectValue placeholder="Priority" />
+              </SelectTrigger>
+              <SelectContent className="bg-gray-900 border-gray-700">
+                <SelectItem value="all" className="text-white">All priorities</SelectItem>
+                <SelectItem value="high" className="text-white">High</SelectItem>
+                <SelectItem value="medium" className="text-white">Medium</SelectItem>
+                <SelectItem value="low" className="text-white">Low</SelectItem>
+                <SelectItem value="none" className="text-white">None</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Button variant={sortByDue ? 'secondary' : 'outline'} size="sm" onClick={() => setSortByDue(!sortByDue)} className="h-9 bg-gray-900/50 border-gray-700 text-gray-300 hover:bg-purple-600/20 hover:text-white">
+              Sort by due date
+            </Button>
+
+            <div className="ml-auto flex gap-2">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-1.5 h-9 bg-gray-900/50 border-gray-700 text-gray-300 hover:bg-purple-600/20 hover:text-white">
+                    <Activity className="h-4 w-4" /> Activity
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="bg-gray-900 border-gray-700">
+                  <SheetHeader>
+                    <SheetTitle className="text-white">Activity Log</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-4">
+                    <ActivityLog entries={board.activityLog} />
+                  </div>
+                </SheetContent>
+              </Sheet>
+
+              <Button variant="outline" size="sm" className="gap-1.5 h-9 bg-gray-900/50 border-gray-700 text-red-400 hover:bg-red-600/20 hover:text-red-400" onClick={() => setResetOpen(true)}>
+                <RotateCcw className="h-4 w-4" /> Reset
+              </Button>
+
+              <Button size="sm" className="gap-1.5 h-9 bg-purple-600 hover:bg-purple-700 text-white" onClick={() => { setEditingTask(null); setDialogOpen(true); }}>
+                <Plus className="h-4 w-4" /> New Task
+              </Button>
+            </div>
+          </div>
         </div>
-      </main>
+
+        {/* Board */}
+        <main className="flex-1">
+          <div className="mx-auto max-w-7xl p-4">
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                {columns.map(col => (
+                  <BoardColumn
+                    key={col}
+                    columnId={col}
+                    tasks={tasksByColumn(col)}
+                    onEdit={handleEdit}
+                    onDelete={id => setDeleteId(id)}
+                  />
+                ))}
+              </div>
+            </DragDropContext>
+          </div>
+        </main>
+      </div>
 
       {/* Dialogs */}
       <TaskDialog
@@ -191,16 +201,16 @@ const Board = () => {
       />
 
       <AlertDialog open={resetOpen} onOpenChange={setResetOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-gray-900 border-gray-700">
           <AlertDialogHeader>
-            <AlertDialogTitle>Reset Board</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle className="text-white">Reset Board</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-300">
               This will permanently delete all tasks and activity history. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => board.resetBoard()} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogCancel className="bg-gray-800 text-gray-300 hover:bg-gray-700">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => board.resetBoard()} className="bg-red-600 text-white hover:bg-red-700">
               Reset Everything
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -208,14 +218,14 @@ const Board = () => {
       </AlertDialog>
 
       <AlertDialog open={!!deleteId} onOpenChange={(v) => !v && setDeleteId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-gray-900 border-gray-700">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Task</AlertDialogTitle>
-            <AlertDialogDescription>Are you sure you want to delete this task?</AlertDialogDescription>
+            <AlertDialogTitle className="text-white">Delete Task</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-300">Are you sure you want to delete this task?</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogCancel className="bg-gray-800 text-gray-300 hover:bg-gray-700">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 text-white hover:bg-red-700">
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
