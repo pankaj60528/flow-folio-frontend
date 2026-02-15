@@ -183,8 +183,8 @@ This project is for educational purposes as part of a frontend internship assign
 
 ## 🌐 Live Demo
 
-[Deploy your application and add the live URL here]
+[https://userfrontend-omega.vercel.app/]
 
 ---
 
-**Built with ❤️ for Frontend Internship Assignment**
+**Built by pankaj ruwali for Frontend Internship Assignment**
